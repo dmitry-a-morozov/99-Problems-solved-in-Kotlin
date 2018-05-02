@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="d466ec59-87b0-4a16-9676-f2a641c472e3_main" target="1.8" />
+      <module name="d466ec59-87b0-4a16-9676-f2a641c472e3_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
