@@ -20,3 +20,9 @@ fun<T> at(pos: Int, xs: List<T>): T? =
         pos == 1 -> xs[0]
         else -> at(pos - 1, xs.drop(1))
     }
+
+fun<T> length(xs: List<T>) =
+    xs.fold(0, { acc, _ -> acc + 1 })
+
+fun<T> rev(xs: List<T>) =
+    xs.foldRight(emptyList<T>(), { x, acc -> acc.plusElement(x)})

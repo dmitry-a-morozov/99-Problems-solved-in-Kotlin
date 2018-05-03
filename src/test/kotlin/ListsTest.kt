@@ -23,4 +23,15 @@ class ListsTest {
         assertEquals( "c", list.at( 3, ( listOf( "a", "b", "c", "d", "e"))))
         assertEquals( null, list.at( 3, ( listOf( "a"))))
     }
+
+    @Test
+    fun `number of elements of a list`() {
+        assertEquals( 3, list.length ( ( listOf( "a", "b", "c"))))
+        assertEquals( 0, list.length( emptyList<String>()))
+    }
+
+    @Test
+    fun `reverse a list`() {
+        assertEquals( listOf( "c", "b", "a"), list.rev ( ( listOf( "a", "b", "c"))))
+    }
 }
