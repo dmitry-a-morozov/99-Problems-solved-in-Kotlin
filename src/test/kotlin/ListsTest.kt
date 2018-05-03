@@ -17,4 +17,10 @@ class ListsTest {
         assertEquals( "c" to "d", list.lastTwo ( listOf( "a", "b", "c", "d")))
         assertEquals( null, list.lastTwo ( listOf( "a")))
     }
+
+    @Test
+    fun `k'th element of a list`() {
+        assertEquals( "c", list.at( 3, ( listOf( "a", "b", "c", "d", "e"))))
+        assertEquals( null, list.at( 3, ( listOf( "a"))))
+    }
 }
