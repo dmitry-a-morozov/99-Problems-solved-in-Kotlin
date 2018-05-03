@@ -1,5 +1,6 @@
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
@@ -33,5 +34,29 @@ class ListsTest {
     @Test
     fun `reverse a list`() {
         assertEquals( listOf( "c", "b", "a"), list.rev ( ( listOf( "a", "b", "c"))))
+    }
+
+    @Test
+    fun `whether a list is a palindrome`() {
+        assertTrue( list.isPalindrome ( ( listOf( "x", "a", "m", "a", "x" ))))
+    }
+
+    @Test
+    fun `flatten a nested list structure`() {
+        assertEquals(
+            listOf("a", "b", "c", "d", "e"),
+            list.flatten(
+                listOf(
+                    list.One("a"),
+                    list.Many(
+                        listOf(
+                            list.One("b"),
+                            list.Many( listOf( list.One("c"), list.One("d")) ),
+                            list.One("e")
+                        )
+                    )
+                )
+            )
+        )
     }
 }

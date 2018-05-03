@@ -26,3 +26,18 @@ fun<T> length(xs: List<T>) =
 
 fun<T> rev(xs: List<T>) =
     xs.foldRight(emptyList<T>(), { x, acc -> acc.plusElement(x)})
+
+fun<T> isPalindrome(xs: List<T>) =
+    xs == rev(xs)
+
+sealed class Node<T>
+data class One<T>(val x: T) : Node<T>()
+data class Many<T>(val xs: List<Node<T>>) : Node<T>()
+
+fun<T> flatten(xs: List<Node<T>>): List<T> =
+    xs.flatMap {
+        when(it) {
+            is One -> listOf(it.x)
+            is Many -> flatten(it.xs)
+        }
+    }
