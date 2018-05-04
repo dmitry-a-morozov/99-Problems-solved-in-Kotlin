@@ -1,4 +1,5 @@
 
+import list.Rle
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -47,12 +48,12 @@ class ListsTest {
             listOf("a", "b", "c", "d", "e"),
             list.flatten(
                 listOf(
-                    list.One("a"),
-                    list.Many(
+                    list.Node.One("a"),
+                    list.Node.Many(
                         listOf(
-                            list.One("b"),
-                            list.Many( listOf( list.One("c"), list.One("d")) ),
-                            list.One("e")
+                            list.Node.One("b"),
+                            list.Node.Many( listOf( list.Node.One("c"), list.Node.One("d")) ),
+                            list.Node.One("e")
                         )
                     )
                 )
@@ -88,6 +89,21 @@ class ListsTest {
         assertEquals(
                 listOf(4 to "a", 1 to "b", 2 to "c", 2 to "a", 1 to "d", 4 to "e"),
                 list.encode(listOf("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e"))
+        )
+    }
+
+    @Test
+    fun `modified run-length encoding of a list`() {
+        assertEquals(
+            listOf(
+                Rle.Many(4, "a"),
+                Rle.One("b"),
+                Rle.Many(2, "c"),
+                Rle.Many(2, "a"),
+                Rle.One("d"),
+                Rle.Many(4, "e")
+            ),
+            list.modifiedEncode(listOf("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e"))
         )
     }
 }

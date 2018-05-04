@@ -30,15 +30,16 @@ fun<T> rev(xs: List<T>) =
 fun<T> isPalindrome(xs: List<T>) =
     xs == rev(xs)
 
-sealed class Node<T>
-data class One<T>(val x: T) : Node<T>()
-data class Many<T>(val xs: List<Node<T>>) : Node<T>()
+sealed class Node<T> {
+    data class One<T>(val x: T) : Node<T>()
+    data class Many<T>(val xs: List<Node<T>>) : Node<T>()
+}
 
 fun<T> flatten(xs: List<Node<T>>): List<T> =
     xs.flatMap {
         when(it) {
-            is One -> listOf(it.x)
-            is Many -> flatten(it.xs)
+            is Node.One -> listOf(it.x)
+            is Node.Many -> flatten(it.xs)
         }
     }
 
@@ -67,4 +68,12 @@ fun<T> pack(xs: List<T>): List<List<T>> =
         )
 
 fun<T> encode(xs: List<T>): List<Pair<Int, T>> =
-    pack( xs).map { it -> it.size to it[0] }
+    pack( xs).map { it.size to it[0] }
+
+sealed class Rle<T> {
+    data class One<T>(val value: T) : Rle<T>()
+    data class Many<T>(val count: Int, val value: T) : Rle<T>()
+}
+
+fun<T> modifiedEncode(xs: List<T>): List<Rle<T>> =
+    pack( xs).map { if (it.size == 1) Rle.One(it[0]) else Rle.Many(it.size, it[0]) }
