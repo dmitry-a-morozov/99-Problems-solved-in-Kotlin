@@ -59,4 +59,35 @@ class ListsTest {
             )
         )
     }
+
+    @Test
+    fun `eliminate consecutive duplicates`() {
+        assertEquals(
+            listOf("a", "b", "c", "a", "d", "e"),
+            list.compress( listOf("a","a","a","a","b","c","c","a","a","d","e","e","e","e"))
+        )
+    }
+
+    @Test
+    fun `pack consecutive duplicates of list elements into sublists`() {
+        assertEquals(
+            listOf(
+                listOf("a","a","a","a"),
+                listOf("b"),
+                listOf("c","c"),
+                listOf("a","a"),
+                listOf("d"),
+                listOf("e","e","e","e")
+            ),
+            list.pack( listOf("a","a","a","a","b","c","c","a","a","d","e","e","e","e"))
+        )
+    }
+
+    @Test
+    fun `run-length encoding of a list`() {
+        assertEquals(
+                listOf(4 to "a", 1 to "b", 2 to "c", 2 to "a", 1 to "d", 4 to "e"),
+                list.encode(listOf("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e"))
+        )
+    }
 }

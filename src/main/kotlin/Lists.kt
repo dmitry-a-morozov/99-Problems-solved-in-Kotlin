@@ -41,3 +41,30 @@ fun<T> flatten(xs: List<Node<T>>): List<T> =
             is Many -> flatten(it.xs)
         }
     }
+
+fun<T> compress(xs: List<T>): List<T> =
+    if (xs.isEmpty())
+        xs
+    else
+        listOf(xs[0]) + list.compress( xs.drop(1).dropWhile { it == xs[0] })
+
+fun<T> pack(xs: List<T>): List<List<T>> =
+    if (xs.isEmpty())
+        emptyList()
+    else
+        xs
+        .drop(1)
+        .fold(
+            mutableListOf( mutableListOf(xs[0])),
+            { acc, x ->
+                if (acc.last().last() == x) {
+                    acc.last().add(x)
+                } else {
+                    acc.add(mutableListOf(x))
+                }
+        acc
+            }
+        )
+
+fun<T> encode(xs: List<T>): List<Pair<Int, T>> =
+    pack( xs).map { it -> it.size to it[0] }
