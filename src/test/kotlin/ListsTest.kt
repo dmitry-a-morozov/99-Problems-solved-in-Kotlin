@@ -9,41 +9,41 @@ import org.junit.jupiter.api.TestInstance
 class ListsTest {
 
     @Test
-    fun `last element of a list`() {
+    fun `Last element of a list`() {
         assertEquals( "d", list.last( listOf( "a", "b", "c", "d")))
         assertEquals( null, list.last( emptyList<String>()))
     }
 
     @Test
-    fun `last and penultimate elements of a list`() {
+    fun `Last and penultimate elements of a list`() {
         assertEquals( "c" to "d", list.lastTwo ( listOf( "a", "b", "c", "d")))
         assertEquals( null, list.lastTwo ( listOf( "a")))
     }
 
     @Test
-    fun `k'th element of a list`() {
+    fun `K'th element of a list`() {
         assertEquals( "c", list.at( 3, ( listOf( "a", "b", "c", "d", "e"))))
         assertEquals( null, list.at( 3, ( listOf( "a"))))
     }
 
     @Test
-    fun `number of elements of a list`() {
+    fun `Number of elements of a list`() {
         assertEquals( 3, list.length ( ( listOf( "a", "b", "c"))))
         assertEquals( 0, list.length( emptyList<String>()))
     }
 
     @Test
-    fun `reverse a list`() {
+    fun `Reverse a list`() {
         assertEquals( listOf( "c", "b", "a"), list.rev ( ( listOf( "a", "b", "c"))))
     }
 
     @Test
-    fun `whether a list is a palindrome`() {
+    fun `Whether a list is a palindrome`() {
         assertTrue( list.isPalindrome ( ( listOf( "x", "a", "m", "a", "x" ))))
     }
 
     @Test
-    fun `flatten a nested list structure`() {
+    fun `Flatten a nested list structure`() {
         assertEquals(
             listOf("a", "b", "c", "d", "e"),
             list.flatten(
@@ -62,7 +62,7 @@ class ListsTest {
     }
 
     @Test
-    fun `eliminate consecutive duplicates`() {
+    fun `Eliminate consecutive duplicates`() {
         assertEquals(
             listOf("a", "b", "c", "a", "d", "e"),
             list.compress( listOf("a","a","a","a","b","c","c","a","a","d","e","e","e","e"))
@@ -70,7 +70,7 @@ class ListsTest {
     }
 
     @Test
-    fun `pack consecutive duplicates of list elements into sublists`() {
+    fun `Pack consecutive duplicates of list elements into sublists`() {
         assertEquals(
             listOf(
                 listOf("a","a","a","a"),
@@ -85,7 +85,7 @@ class ListsTest {
     }
 
     @Test
-    fun `run-length encoding of a list`() {
+    fun `Run-length encoding of a list`() {
         assertEquals(
                 listOf(4 to "a", 1 to "b", 2 to "c", 2 to "a", 1 to "d", 4 to "e"),
                 list.encode(listOf("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e"))
@@ -93,7 +93,7 @@ class ListsTest {
     }
 
     @Test
-    fun `modified run-length encoding of a list`() {
+    fun `Modified run-length encoding of a list`() {
         assertEquals(
             listOf(
                 Rle.Many(4, "a"),
@@ -103,7 +103,39 @@ class ListsTest {
                 Rle.One("d"),
                 Rle.Many(4, "e")
             ),
-            list.modifiedEncode(listOf("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e"))
+            list.encode11(listOf("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e"))
+        )
+    }
+
+    @Test
+    fun `Decode a run-length encoded list`() {
+        assertEquals(
+            listOf("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e"),
+            list.decode(
+                listOf(
+                    Rle.Many(4, "a"),
+                    Rle.One("b"),
+                    Rle.Many(2, "c"),
+                    Rle.Many(2, "a"),
+                    Rle.One("d"),
+                    Rle.Many(4, "e")
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `Run-length encoding of a list (direct solution)`() {
+        assertEquals(
+            listOf(
+                Rle.Many(4, "a"),
+                Rle.One("b"),
+                Rle.Many(2, "c"),
+                Rle.Many(2, "a"),
+                Rle.One("d"),
+                Rle.Many(4, "e")
+            ),
+            list.encode13( listOf("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e"))
         )
     }
 }

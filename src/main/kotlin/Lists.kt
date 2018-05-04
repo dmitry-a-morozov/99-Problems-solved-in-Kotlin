@@ -1,5 +1,7 @@
 package list
 
+import kotlin.coroutines.experimental.buildSequence
+
 fun<T> last(xs: List<T>): T? =
     when (xs.size) {
         0 -> null
@@ -75,5 +77,37 @@ sealed class Rle<T> {
     data class Many<T>(val count: Int, val value: T) : Rle<T>()
 }
 
-fun<T> modifiedEncode(xs: List<T>): List<Rle<T>> =
+fun<T> encode11(xs: List<T>): List<Rle<T>> =
     pack( xs).map { if (it.size == 1) Rle.One(it[0]) else Rle.Many(it.size, it[0]) }
+
+fun<T> decode(xs: List<Rle<T>>): List<T> =
+    xs.flatMap { x ->
+        when (x) {
+            is Rle.One -> listOf(x.value)
+            is Rle.Many -> List<T>(x.count) { x.value }
+        }
+    }
+
+fun<T> encode13(xs: List<T>): List<Rle<T>> =
+    if (xs.isEmpty())
+        emptyList()
+    else
+        buildSequence {
+            var count = 1
+            var value = xs[0]
+            for(x in xs.drop(1)) {
+                if (x != value) {
+                    if (count == 1) yield(Rle.One(value))
+                    else yield(Rle.Many(count, value))
+                    value = x
+                    count = 1
+                }
+                else {
+                    count += 1
+                }
+            }
+
+            if (count == 1) yield(Rle.One(value))
+            else yield(Rle.Many(count, value))
+        }
+        .toList()
