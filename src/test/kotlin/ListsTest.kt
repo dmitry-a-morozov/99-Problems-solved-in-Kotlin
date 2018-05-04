@@ -138,4 +138,28 @@ class ListsTest {
             list.encode13( listOf("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e"))
         )
     }
+
+    @Test
+    fun `Duplicate the elements of a list`() {
+        assertEquals(
+            listOf("a", "a", "b", "b", "c", "c", "c", "c", "d", "d"),
+            list.duplicate( listOf( "a","b","c","c","d"))
+        )
+    }
+
+    @Test
+    fun `Replicate the elements of a list a given number of times`() {
+        assertEquals(
+            listOf("a", "a", "a", "b", "b", "b", "c", "c", "c"),
+            list.replicate ( listOf( "a","b","c"), 3)
+        )
+    }
+
+    @Test
+    fun ` Drop every N'th element from a list`() {
+        assertEquals(
+            listOf( "a", "b", "d", "e", "g", "h", "j"),
+            list.dropN( listOf( "a","b","c","d","e","f","g","h","i","j"),3)
+        )
+    }
 }

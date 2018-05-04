@@ -1,5 +1,6 @@
 package list
 
+import java.util.*
 import kotlin.coroutines.experimental.buildSequence
 
 fun<T> last(xs: List<T>): T? =
@@ -111,3 +112,10 @@ fun<T> encode13(xs: List<T>): List<Rle<T>> =
             else yield(Rle.Many(count, value))
         }
         .toList()
+
+fun<T> duplicate(xs: List<T>): List<T> = xs.flatMap { listOf(it, it) }
+
+fun<T> replicate(xs: List<T>, n: Int): List<T> = xs.flatMap { x -> List(n) { x } }
+
+fun<T : Any> dropN(xs: List<T>, n: Int): List<T> =
+    xs.mapIndexedNotNull { i, x -> if ((i + 1) % n != 0) x else null  }
